@@ -1,19 +1,7 @@
-import clr
-
-clr.AddReference("Interop.SolidEdge")
-clr.AddReference("System.Runtime.InteropServices")
-
-import SolidEdgeFramework as SEFramework
-import SolidEdgePart as SEPart
-import SolidEdgeConstants as SEConstants
-import System.Runtime.InteropServices as SRI
-# import SolidEdgeDraft as SEDraft
-
-from settings2 import drillsize, stdthread
-import sys
+#!python3
 
 
-class Hole(object):
+class Simple(object):
     """Access the propeties and methodes of holes in Solidedge."""
 
     def __init__(self, hole):
@@ -77,7 +65,7 @@ class Hole(object):
 
 
 
-class Threaded(Hole):
+class Threaded(Simple):
 
     def __init__(self, hole):
         super(Threaded, self).__init__(hole)
@@ -104,26 +92,3 @@ class Threaded(Hole):
 
         else:
             print('[-] Unchanged')
-
-
-
-
-if __name__ == "__main__":
-    # Connect to a running instance of Solid Edge
-    objApplication = SRI.Marshal.GetActiveObject("SolidEdge.Application")
-    # Get a reference to the active document
-    objPart = objApplication.ActiveDocument
-    print(objPart.Name) #partnumber
-    # Get a reference to the variables collection
-    holes = objPart.HoleDataCollection
-    for hole in holes:
-        o = Threaded(hole)
-        # o = Hole(hole) #for simple hole
-        o.inspection()
-        # print(o.extract_data()) #return a dictionnary of holes data #debugging
-        print('...')
-        db = Threaded.equivalence(o)
-        o.inject(db)
-        o.inspection()
-            print('Inch -> mm\n')
-        # raw_input("\n(Press any key to exit ;)")

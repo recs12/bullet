@@ -1,6 +1,6 @@
 
 stdthread = {
-    '1/4-20 UNC': {'Sub Type': 'Standard Thread', 'Size': 'M6x1', 'Nominal Diameter': 0.006 , 'Standard': 'ANSI Metric - PT', 'Internal Minor': 0.005, 'Pitch': 0.040}, #in inch change to mm equivalent.
+    '1/4-20 UNC': {'Sub Type': 'Standard Thread', 'Size': 'M6x1', 'Nominal Diameter': 0.006 , 'Standard': 'ANSI Metric - PT', 'Internal Minor': 0.005, 'Pitch': 0.001}, #in inch change to mm equivalent.
     '5/16-18 UNC': {'Sub Type': 'Standard Thread', 'Size': 'M8x1.25', 'Nominal Diameter': 0.008, 'Standard': 'ANSI Metric - PT', 'Internal Minor': 0.068, 'Pitch': 0.00125},
     '3/8-16 UNC': {'Sub Type': 'Standard Thread', 'Size': 'M10x1.5', 'Nominal Diameter': 0.010, 'Standard': 'ANSI Metric - PT', 'Internal Minor': 0.085}, 'Pitch': 0.0015,
     '1/2-13 UNC': {'Sub Type': 'Standard Thread', 'Size': 'M12x1.75', 'Nominal Diameter': 0.012, 'Standard': 'ANSI Metric - PT', 'Internal Minor': 0.0102, 'Pitch': 0.00175},
