@@ -1,0 +1,61 @@
+Application
+AttributeSets
+BottomAngle
+CounterboreDepth
+CounterboreDiameter
+CounterboreProfileLocationType
+CountersinkAngle
+CountersinkDiameter
+CreateObjRef
+Delete
+DisplayName
+EdgebarName
+Equals
+Fit
+GetEndChamfer
+GetHashCode
+GetLifetimeService
+GetNeckChamfer
+GetStartChamfer
+GetType
+HeadClearance
+HoleDiameter*
+HoleType*
+InitializeLifetimeService
+InsideEffectiveThreadLength
+InternalThreadDescription
+IsAttributeSetPresent--
+MemberwiseClone--
+Name*
+OutsideEffectiveThreadLength++
+Parent
+ReferenceEquals--
+SetEndChamfer
+SetNeckChamfer
+SetStartChamfer
+Size*
+Standard*
+SubType*
+SystemName +-
+Taper +-
+TaperDimType
+TaperLValue
+TaperMethod
+TaperRValue
+ThreadDataByDescription+
+ThreadDepth*
+ThreadDepthMethod +-
+ThreadDescription +-
+ThreadDiameterOption 
+ThreadExternalDiameter*
+ThreadHeight+-
+ThreadMinorDiameter*
+ThreadNominalDiameter*
+ThreadSetting +-
+ThreadTapDrillDiameter*
+ThreadTaperAngle
+ToString
+Transfer
+TreatmentType
+Units*
+VBottomDimType

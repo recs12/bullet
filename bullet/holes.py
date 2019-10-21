@@ -1,4 +1,5 @@
 #!python3
+from standards import drillsize, stdthread
 
 
 class Simple(object):
@@ -24,7 +25,6 @@ class Simple(object):
             self.hole.Size = db.get("Size", '')
             self.hole.Fit = db.get("Fit", '')
             self.hole.HoleDiameter = db.get("Hole Diameter",'')
-            # self.hole.ThreadMinorDiameter = db.get("Internal Minor",None) #unique to threads
         else:
             print('[-] hole unchanged')
 
@@ -64,7 +64,6 @@ class Simple(object):
                     return hole_data
 
 
-
 class Threaded(Simple):
 
     def __init__(self, hole):
@@ -73,22 +72,34 @@ class Threaded(Simple):
 
     def inspection(self):
         super(Threaded, self).inspection()
-        print('Th.Min.Diam  : %s' %self.hole.ThreadMinorDiameter)   #unique to threads
-        print('Th.Nominal.Diam  : %s' %self.hole.ThreadNominalDiameter)   #unique to threads
-        # if self.hole.ThreadDepth:
-        #     print('Pitch  : %s' %self.hole.ThreadDepth)
+        print('Nominal.Diam  : %s' %self.hole.ThreadNominalDiameter)   #unique to threads
+        print('Tap.drill.Diam  : %s' %self.hole.ThreadTapDrillDiameter)   #unique to threads
+        print('Int.Diam  : %s' %self.hole.ThreadMinorDiameter)   #unique to threads
+        print('Ext.Diam  : %s' %self.hole.ThreadExternalDiameter)   #unique to threads
+        print('Pitch  : %s' %self.hole.ThreadDepth)
+        print('Units  : %s' %self.hole.Units)   # Code: 0 for Inch & 1 for mm
+        print('SystemName  : %s' %self.hole.SystemName)
+        print('Taper  : %s' %self.hole.Taper)
+        print('ThreadDepthMethod   : %s' %self.hole.ThreadDepthMethod )
+        print('ThreadDescription   : %s' %self.hole.ThreadDescription )
+        print('ThreadHeight   : %s' %self.hole.ThreadHeight )
+        print('ThreadHeight   : %s' %self.hole.ThreadHeight )
+        print('ThreadSetting   : %s' %self.hole.ThreadSetting )
+        print('InternalThreadDescription  : %s' %self.hole.InternalThreadDescription)
         print('-------------------------------------')
 
     def inject(self, db):
         if db:
+            self.hole.Units = 1 #depend of Standard value 0 or 1
+            self.hole.ThreadNominalDiameter = db.get("Nominal Diameter", None)
+            self.hole.ThreadTapDrillDiameter = db.get("Tap Drill Diameter", None) #unique to threads
+            self.hole.ThreadExternalDiameter = db.get("External Minor", None) #unique to threads
+            self.hole.ThreadMinorDiameter = db.get("Internal Minor", None) #unique to threads
             self.hole.Standard = db.get("Standard",'')
             self.hole.SubType = db.get("Sub Type",'')
             self.hole.Size = db.get("Size", '')
-            self.hole.Fit = db.get("Fit", '')
-            self.hole.ThreadNominalDiameter = db.get("Nominal Diameter",'')
-            self.hole.ThreadMinorDiameter = db.get("Internal Minor",None) #unique to threads
-            # if self.hole.ThreadDepth:
-            #     self.hole.ThreadDepth = db.get("Pitch", None)
-
+            self.hole.ThreadDescription = db.get("Size", '')
+            self.hole.ThreadDepth = db.get("Pitch", None) #unique to threads
         else:
             print('[-] Unchanged')
+

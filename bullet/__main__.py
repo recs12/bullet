@@ -24,17 +24,19 @@ def main():
     # Get a reference to the variables collection
     holes = objPart.HoleDataCollection
     for hole in holes:
+        # o = Simple(hole) #for simple hole
         o = Threaded(hole)
-        # o = Hole(hole) #for simple hole
         o.inspection()
         # print(o.extract_data()) #return a dictionnary of holes data #debugging
-        print('...')
+        db = Simple.equivalence(o)
         db = Threaded.equivalence(o)
         o.inject(db)
         o.inspection()
-        print('Inch -> mm\n')
-        raw_input("\n(Press any key to exit ;)")
+        # raw_input("\n(Press any key to exit ;)")
 
 
 if __name__ == "__main__":
     main()
+
+
+#TODO: [3] process only parts. or assemblies.
