@@ -1,5 +1,6 @@
 #!python3
-from standards import drillsize, stdthread
+# Units: 0 (inch) & 1 (mm)
+from standards import drillsize, standard_thread
 
 
 class Simple(object):
@@ -20,6 +21,7 @@ class Simple(object):
 
     def inject(self, db):
         if db:
+            self.hole.Units = 1
             self.hole.Standard = db.get("Standard",'')
             self.hole.SubType = db.get("Sub Type",'')
             self.hole.Size = db.get("Size", '')
@@ -29,23 +31,14 @@ class Simple(object):
             print('[-] hole unchanged')
 
     def inspection(self):
-        '''Display holes details.'''
-        print('-------------------------------------')
+        print('---')
         print('Name         : %s' %self.hole.Name)
         print('Family       : %s' %self.family)
-        # print('Display      : %s' %self.hole.DisplayName) #same as Name
-        # print('SystemName   : %s' %self.hole.SystemName) #same as Name
-        print('=====================================')
         print('Standard     : %s' %self.hole.Standard)
         print('SubType      : %s' %self.hole.SubType)
         print('Size         : %s' %self.hole.Size)
         print('Fit          : %s' %self.hole.Fit)
         print('H.Diam       : %s' %self.hole.HoleDiameter)
-        print('-------------------------------------')
-
-    @staticmethod
-    def convertor(distance):
-        return distance*25.4/100 #inch -> meter
 
     def equivalence(self):
         if not self.hole.SubType:
@@ -54,52 +47,77 @@ class Simple(object):
             if self.hole.Standard == 'ANSI Metric - PT':
                 print('[-] %s is already metric' %self.hole.Name)
             else:
-                if self.hole.SubType == 'Drill Size':
-                    sz = self.hole.Size #check for size
-                    hole_data = drillsize.get('%s' %sz)#with this size check for the equivalence in metrical
-                    return hole_data
-                elif self.hole.SubType == 'Standard Thread':
-                    sz = self.hole.Size #check for size
-                    hole_data = stdthread.get('%s' %sz)#with this size check for the equivalence in metrical
-                    return hole_data
+                sz = self.hole.Size
+                hole_data = drillsize.get('%s' %sz)
+                return hole_data
 
 
-class Threaded(Simple):
+class Threaded():
 
     def __init__(self, hole):
-        super(Threaded, self).__init__(hole)
+        self.hole = hole
         self.family = 'Threaded'
 
     def inspection(self):
-        super(Threaded, self).inspection()
-        print('Nominal.Diam  : %s' %self.hole.ThreadNominalDiameter)   #unique to threads
-        print('Tap.drill.Diam  : %s' %self.hole.ThreadTapDrillDiameter)   #unique to threads
-        print('Int.Diam  : %s' %self.hole.ThreadMinorDiameter)   #unique to threads
-        print('Ext.Diam  : %s' %self.hole.ThreadExternalDiameter)   #unique to threads
+        print('Nominal.Diam  : %s' %self.hole.ThreadNominalDiameter)
+        print('Tap.drill.Diam  : %s' %self.hole.ThreadTapDrillDiameter)
+        print('Int.Diam  : %s' %self.hole.ThreadMinorDiameter)
+        print('Ext.Diam  : %s' %self.hole.ThreadExternalDiameter)
         print('Pitch  : %s' %self.hole.ThreadDepth)
-        print('Units  : %s' %self.hole.Units)   # Code: 0 for Inch & 1 for mm
+        print('Units  : %s' %self.hole.Units)
         print('SystemName  : %s' %self.hole.SystemName)
         print('Taper  : %s' %self.hole.Taper)
         print('ThreadDepthMethod   : %s' %self.hole.ThreadDepthMethod )
         print('ThreadDescription   : %s' %self.hole.ThreadDescription )
         print('ThreadHeight   : %s' %self.hole.ThreadHeight )
-        print('ThreadHeight   : %s' %self.hole.ThreadHeight )
         print('ThreadSetting   : %s' %self.hole.ThreadSetting )
-        print('InternalThreadDescription  : %s' %self.hole.InternalThreadDescription)
-        print('-------------------------------------')
 
     def inject(self, db):
         if db:
-            self.hole.Units = 1 #depend of Standard value 0 or 1
-            self.hole.ThreadNominalDiameter = db.get("Nominal Diameter", None)
-            self.hole.ThreadTapDrillDiameter = db.get("Tap Drill Diameter", None) #unique to threads
-            self.hole.ThreadExternalDiameter = db.get("External Minor", None) #unique to threads
-            self.hole.ThreadMinorDiameter = db.get("Internal Minor", None) #unique to threads
-            self.hole.Standard = db.get("Standard",'')
-            self.hole.SubType = db.get("Sub Type",'')
-            self.hole.Size = db.get("Size", '')
-            self.hole.ThreadDescription = db.get("Size", '')
-            self.hole.ThreadDepth = db.get("Pitch", None) #unique to threads
+            self.hole.Units= db.get("Units", None)
+            self.hole.BottomAngle = db.get("BottomAngle", None)
+            self.hole.CounterboreDepth = db.get("CounterboreDepth", None)
+            self.hole.CounterboreDiameter = db.get("CounterboreDiameter", None)
+            self.hole.CounterboreProfileLocationType = db.get("CounterboreProfileLocationType", None)
+            self.hole.CountersinkAngle = db.get("CountersinkAngle", None)
+            self.hole.CountersinkDiameter = db.get("CountersinkDiameter", None)
+            self.hole.HeadClearance = db.get("HeadClearance", None)
+            self.hole.HoleDiameter = db.get("HoleDiameter", None)
+            self.hole.HoleType = db.get("HoleType", None)
+            # self.hole.InsideEffectiveThreadLength = db.get("InsideEffectiveThreadLength", None)
+            # self.hole.Name = db.get("Name", None)
+            # self.hole.OutsideEffectiveThreadLength = db.get("OutsideEffectiveThreadLength", None)
+            self.hole.Size = db.get("Size", None)
+            self.hole.Standard = db.get("Standard", None)
+            self.hole.SubType = db.get("SubType", None)
+            self.hole.Taper = db.get("Taper", None)
+            self.hole.TaperDimType = db.get("TaperDimType", None)
+            self.hole.TaperLValue = db.get("TaperLValue", None)
+            self.hole.TaperMethod = db.get("TaperMethod", None)
+            self.hole.TaperRValue = db.get("TaperRValue", None)
+            self.hole.ThreadDepth = db.get("ThreadDepth", None)
+            self.hole.ThreadDepthMethod = db.get("ThreadDepthMethod", None)
+            self.hole.ThreadDescription = db.get("ThreadDescription", None)
+            self.hole.ThreadDiameterOption= db.get("ThreadDiameterOption", None)
+            self.hole.ThreadExternalDiameter= db.get("ThreadExternalDiameter", None)
+            # self.hole.ThreadHeight= db.get("ThreadHeight", None)
+            self.hole.ThreadMinorDiameter= db.get("ThreadMinorDiameter", None)
+            self.hole.ThreadNominalDiameter= db.get("ThreadNominalDiameter", None)
+            self.hole.ThreadSetting= db.get("ThreadSetting", None)
+            self.hole.ThreadTapDrillDiameter= db.get("ThreadTapDrillDiameter", None)
+            self.hole.ThreadTaperAngle= db.get("ThreadTaperAngle", None)
+            self.hole.TreatmentType= db.get("TreatmentType", None)
+            self.hole.VBottomDimType= db.get("VBottomDimType", None)
         else:
             print('[-] Unchanged')
 
+    def equivalence(self):
+        if not self.hole.SubType:
+            raise Exception('[-] SubType unknown')
+        else:
+            if self.hole.Standard == 'ANSI Metric - PT':
+                print('[-] %s is already metric' %self.hole.Name)
+            else:
+                sz = self.hole.Size #check for size
+                hole_data = standard_thread.get('%s' %sz)
+                return hole_data

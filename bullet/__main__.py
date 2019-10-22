@@ -11,7 +11,7 @@ import SolidEdgeConstants as SEConstants
 import System.Runtime.InteropServices as SRI
 
 from holes import Simple, Threaded
-from standards import drillsize, stdthread
+from standards import drillsize, standard_thread
 
 
 def main():
@@ -27,8 +27,7 @@ def main():
         # o = Simple(hole) #for simple hole
         o = Threaded(hole)
         o.inspection()
-        # print(o.extract_data()) #return a dictionnary of holes data #debugging
-        db = Simple.equivalence(o)
+        # db = Simple.equivalence(o)
         db = Threaded.equivalence(o)
         o.inject(db)
         o.inspection()
