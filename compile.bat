@@ -1,0 +1,1 @@
+ipyc.exe  /main:./bullet/__main__.py ./bullet/holes.py ./bullet/equivalences.py ./bullet/customs.py ./bullet/Interop.SolidEdge.dll  /embed /out:bullet005 /platform:x64 /standalone /target:exe /win32icon:logo.ico
