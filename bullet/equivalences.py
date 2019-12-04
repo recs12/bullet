@@ -2,7 +2,7 @@
 # Dictionnary of equivalences
 # inch to mm
 
-inch_to_mm = {
+mapping = {
     # :'Countersink #10',
     # :'Countersink 0.250',
     # :'Countersink 0.312',
@@ -80,8 +80,8 @@ inch_to_mm = {
     # :'G 3/8',
     # :'G 1/2',
     # :'Full Threaded 0.500-13 UNC',
-    "#6-32 UNC":'Threaded M4X0.7',
-    "#8-32 UNC":'Threaded M4X0.7',
+    "#6-32 UNC": "Threaded M4X0.7",
+    "#8-32 UNC": "Threaded M4X0.7",
     "#10-24 UNC": "Threaded M5X0.8",
     "#10-32 UNF": "Threaded M5X0.8",
     "1/4-20 UNC": "Threaded M6X1",
