@@ -1,55 +1,80 @@
 """ Convert threads in holes from imperial to metric.
 """
-
-import clr
-
-clr.AddReference("Interop.SolidEdge")
-clr.AddReference("System.Runtime.InteropServices")
-
 import sys
-import SolidEdgeFramework as SEFramework
-import SolidEdgePart as SEPart
-import SolidEdgeConstants as SEConstants
-import System.Runtime.InteropServices as SRI
-
 from holes import Hole
 from api import Api, HoleCollection
+
 
 def main():
     try:
         session = Api()
-        print("Author: recs")
-        print("Last update: 2019-12-3")
+        print("* Author: recs")
+        print("* Last update: 2019-12-3")
         session.check_valid_version('Solid Edge ST7','Solid Edge 2019')
         plate = session.active_document()
-        print("part: %s\n" % plate.name)
+        print("* part-number: {}\n".format(plate.name))
 
         # Check if part is sheetmetal.
+        # TODO: Change the old formated string system for the more recent .format(?)
         assert plate.name.endswith(".psm"), "This macro only works on .psm not %s" %plate.name[-4:]
 
         # Get a reference to the variables collection.
         holes = HoleCollection(plate)
 
-        print("Total of holes: %s" %holes.count)
-        print("|\timperial\t|\tmetric\t\t|")
+        # Display the quantites of different types of holes.
+        quantites(holes.count, holes.count_threaded, holes.count_imperial_threaded, holes.count_metric_threaded)
+
+        # Display a table of content
+        # hole sizes before and after macro process.
+        print("|\t{}\t\t|\t{}\t|".format('current','changed to'))
         print(48 * "=")
         for hole in holes.threaded():
             o = Hole(hole)
+            if o.is_metric():
+                continue
             imperial = o.size
             holedata = Hole.get_equivalence(o)
             o.conversion_to_metric(holedata)
             metric = o.size
-            print("|\t%s\t|\t%s\t\t|" %(imperial, metric))
+            print("|\t{}\t|\t{}\t\t|".format(imperial, metric))
         print(48 * "-")
+        print("\n")
+
+        # Display a second time the quantites of different types of holes.
+        quantites(holes.count, holes.count_threaded, holes.count_imperial_threaded, holes.count_metric_threaded, state="(Changed state)")
+
     except AssertionError as err:
         print(err.args)
+
     except Exception as ex:
         print(ex.args)
+
     else:
         pass
+
     finally:
         raw_input("\n(Press any key to exit ;)")
         sys.exit()
 
+
+def quantites(count, count_threaded, imperial_threaded, metric_threaded, state="(Current state)"):
+    print("{}".format(state))
+    print("Total number of holes: {}".format(count))
+    print(" - total threaded holes: {}".format(count_threaded))
+    print(" - threaded imperial: {}".format(imperial_threaded))
+    print(" - threaded metric: {} \n".format(metric_threaded))
+
+
+def confirmation(func):
+    response = raw_input(
+    """Bullet converts holes from imperial to metric, (Press y/[Y] to proceed.): """
+    )
+    if response.lower() not in ['y']:
+        print('Process canceled')
+        sys.exit()
+    else:
+        func()
+
 if __name__ == "__main__":
-    main()
+    confirmation(main)
+

@@ -8,6 +8,8 @@ class Hole:
     def __init__(self, hole):
         self.hole = hole
 
+    def is_metric(self):
+        return self.hole.Units==1
 
     # Allow to check the parameters of hole
     # also, it can be used as extractor of datahole
@@ -139,30 +141,23 @@ class Hole:
         if not self.hole.SubType:
             raise Exception("[-] SubType value undefined")
         else:
-            if self.hole.Standard == "ANSI Metric - PT":
-                print("[-] %s already metric. \n\n" % self.hole.Name)
+            size = self.hole.Size  # check for size
+            if not isinstance(size, str):
+                raise ValueError("size is not string.")
+
+            equiv = mapping.get(size, None)
+            if not isinstance(equiv, str):
+                raise TypeError("equiv is not string.")
+
+            if equiv not in savedholes:
+                raise ValueError(
+                    "Hole size: %s is not in costums-holes-collection." % size
+                )
+            hole_data = savedholes.get(equiv)
+            if not isinstance(hole_data, dict):
+                raise TypeError("hole_data is not dict type: %s" % type(hole_data))
             else:
-                size = self.hole.Size  # check for size
-                if not isinstance(size, str):
-                    raise ValueError("size is not string.")
-                else:
-                    pass
-
-                equiv = mapping.get(size, None)
-                if equiv not in savedholes:
-                    raise ValueError(
-                        "Hole size: %s is not in costums-holes-collection." % size
-                    )
-                if not isinstance(equiv, str):
-                    raise TypeError("equiv is not string.")
-                else:
-                    pass
-
-                hole_data = savedholes.get(equiv)
-                if not isinstance(hole_data, dict):
-                    raise TypeError("hole_data is not dict type: %s" % type(hole_data))
-                else:
-                    return hole_data
+                return hole_data
 
     def conversion_to_metric(self, db):
         if not db:
@@ -203,5 +198,3 @@ class Hole:
             self.hole.TreatmentType = db.get("TreatmentType", None)
             self.hole.VBottomDimType = db.get("VBottomDimType", None)
 
-
-# TODO: [3] create method quick_inspection (just /size)
