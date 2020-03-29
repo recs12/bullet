@@ -4,9 +4,18 @@ import sys
 
 from api import Api, HoleCollection
 from holes import Hole
+from bullet.equivalences import mappingToMetric, mappingToImp
 
 
-def main():
+def conversion_metric():
+    cad_conversion(option=1)
+
+
+def conversion_imperial():
+    cad_conversion(option=2)
+
+
+def cad_conversion(option):
     try:
         session = Api()
         print("* Author: recs")
@@ -17,9 +26,9 @@ def main():
 
         # Check if part is sheetmetal.
         # TODO: Change the old formated string system for the more recent .format(?)
-        assert plate.name.endswith(".psm"), (
-            "This macro only works on .psm not {:^30s}".format(plate.name[-4:])
-        )
+        assert plate.name.endswith(
+            ".psm"
+        ), "This macro only works on .psm not {:^30s}".format(plate.name[-4:])
 
         # Get a reference to the variables collection.
         holes = HoleCollection(plate)
@@ -34,18 +43,32 @@ def main():
 
         # Display a table of content
         # hole sizes before and after macro process.
-        print(" "+ 60 * "-")
+        print(" " + 60 * "-")
         print("{:^30s}->{:^30s}".format("current", "changed to"))
-        print(" "+ 60 * "=")
-        for hole in holes.threaded():
-            o = Hole(hole)
-            if o.is_metric():
-                continue
-            imperial = o.size
-            holedata = Hole.get_equivalence(o)
-            o.conversion_to_metric(holedata)
-            metric = o.size
-            print(" {:<30s} {:<30s}".format(imperial, metric))
+        print(" " + 60 * "=")
+        #
+
+        if option == 1:  # if metric
+            for hole in holes.threaded():
+                o = Hole(hole)
+                if o.is_metric():
+                    continue
+                imperial = o.size
+                holedata = Hole.get_equivalence(o)
+                o.conversion_to_metric(holedata)
+                metric = o.size
+                print(" {:<30s} {:<30s}".format(imperial, metric))
+        elif option == 2:  # if imperial
+            for hole in holes.threaded():
+                o = Hole(hole)
+                if o.is_metric():  # correction
+                    continue
+                imperial = o.size  # correstion
+                holedata = Hole.get_equivalence(o)  # correction
+                o.conversion_to_metric(holedata)  # correction
+                metric = o.size  # correction
+                print(" {:<30s} {:<30s}".format(imperial, metric))  # correction
+        #
         print(" " + 60 * "-")
         print("\n")
 
@@ -82,6 +105,7 @@ def quantites(
     print("  - metric: ............ {} \n".format(metric_threaded))
 
 
+# Replace confirmation by multi choice option 1 or 2. + switcher
 def confirmation(func):
     response = raw_input(
         """Bullet converts holes from imperial to metric, (Press y/[Y] to proceed.): """

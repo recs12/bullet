@@ -2,7 +2,7 @@
 # Dictionnary of equivalences
 # inch to mm
 
-mapping = {
+mappingToMetric = {
     # :'Countersink #10',
     # :'Countersink 0.250',
     # :'Countersink 0.312',
@@ -101,3 +101,4 @@ mapping = {
 }
 
 # what is the difference between full threaded and threaded?
+mappingToImp = {imp: metric for metric, imp in mappingToMetric.items()}

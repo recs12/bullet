@@ -9,7 +9,7 @@ class Hole:
         self.hole = hole
 
     def is_metric(self):
-        return self.hole.Units==1
+        return self.hole.Units == 1
 
     # Allow to check the parameters of hole
     # also, it can be used as extractor of datahole
@@ -132,7 +132,7 @@ class Hole:
         print("   Units: %s" % self.hole.Units)
         print("   VBottomDimType: %s" % self.hole.VBottomDimType)
         print("\n")
-    
+
     @property
     def size(self):
         return self.hole.Size
@@ -197,4 +197,3 @@ class Hole:
             self.hole.ThreadTaperAngle = db.get("ThreadTaperAngle", None)
             self.hole.TreatmentType = db.get("TreatmentType", None)
             self.hole.VBottomDimType = db.get("VBottomDimType", None)
-
