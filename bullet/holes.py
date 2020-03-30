@@ -1,7 +1,7 @@
 #!python3
 # Units: 0 (inch) & 1 (mm)
 from customs import savedholes
-from equivalences import mapping
+from equivalences import mappingToMetric, mappingToImp
 
 
 class Hole:
@@ -10,6 +10,9 @@ class Hole:
 
     def is_metric(self):
         return self.hole.Units == 1
+
+    def is_imperial(self):
+        return self.hole.Units == 0
 
     # Allow to check the parameters of hole
     # also, it can be used as extractor of datahole
@@ -145,7 +148,7 @@ class Hole:
             if not isinstance(size, str):
                 raise ValueError("size is not string.")
 
-            equiv = mapping.get(size, None)
+            equiv = mappingToMetric.get(size, None)
             if not isinstance(equiv, str):
                 raise TypeError("equiv is not string.")
 

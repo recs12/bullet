@@ -7,16 +7,17 @@ from holes import Hole
 from bullet.equivalences import mappingToMetric, mappingToImp
 
 
-def conversion_metric():
-    cad_conversion(option=1)
+def prompt_units_selection():
+    sys = raw_input(
+        "select:\n\t - m: metric\n\t - i: imperial\n\t - other keys to quite.\n"
+    )
+    return {"m": "metric", "i": "imperial"}.get(sys, sys.exit())
 
 
-def conversion_imperial():
-    cad_conversion(option=2)
-
-
-def cad_conversion(option):
+def cad_conversion(units="metric"):
+    """Convert holes in plate to metric (by default) or imperial."""
     try:
+        units = prompt_units_selection()
         session = Api()
         print("* Author: recs")
         print("* Last update: 2019-12-3")
@@ -48,26 +49,26 @@ def cad_conversion(option):
         print(" " + 60 * "=")
         #
 
-        if option == 1:  # if metric
+        if units == "metric":  # if metric
             for hole in holes.threaded():
                 o = Hole(hole)
                 if o.is_metric():
                     continue
                 imperial = o.size
-                holedata = Hole.get_equivalence(o)
+                holedata = Hole.get_equivalence(o, mapping=mappingToMetric)
                 o.conversion_to_metric(holedata)
                 metric = o.size
                 print(" {:<30s} {:<30s}".format(imperial, metric))
-        elif option == 2:  # if imperial
+        elif units == "imperial":  # if imperial
             for hole in holes.threaded():
                 o = Hole(hole)
-                if o.is_metric():  # correction
+                if o.is_imperial():
                     continue
-                imperial = o.size  # correstion
-                holedata = Hole.get_equivalence(o)  # correction
+                metric = o.size
+                holedata = Hole.get_equivalence(o, mapping=mappingToImp)  # correction
                 o.conversion_to_metric(holedata)  # correction
-                metric = o.size  # correction
-                print(" {:<30s} {:<30s}".format(imperial, metric))  # correction
+                imperial = o.size
+                print(" {:<30s} {:<30s}".format(metric, imperial))
         #
         print(" " + 60 * "-")
         print("\n")
@@ -105,7 +106,6 @@ def quantites(
     print("  - metric: ............ {} \n".format(metric_threaded))
 
 
-# Replace confirmation by multi choice option 1 or 2. + switcher
 def confirmation(func):
     response = raw_input(
         """Bullet converts holes from imperial to metric, (Press y/[Y] to proceed.): """
