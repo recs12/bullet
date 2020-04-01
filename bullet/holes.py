@@ -140,15 +140,14 @@ class Hole:
     def size(self):
         return self.hole.Size
 
-    def get_equivalence(self):
+    def get_equivalence(self, mapping):
         if not self.hole.SubType:
             raise Exception("[-] SubType value undefined")
         else:
             size = self.hole.Size  # check for size
             if not isinstance(size, str):
                 raise ValueError("size is not string.")
-
-            equiv = mappingToMetric.get(size, None)
+            equiv = mapping.get(size, None)
             if not isinstance(equiv, str):
                 raise TypeError("equiv is not string.")
 

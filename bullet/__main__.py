@@ -4,17 +4,17 @@ import sys
 
 from api import Api, HoleCollection
 from holes import Hole
-from bullet.equivalences import mappingToMetric, mappingToImp
+from equivalences import mappingToMetric, mappingToImp
 
 
 def prompt_units_selection():
     sys = raw_input(
-        "select:\n\t - m: metric\n\t - i: imperial\n\t - other keys to quite.\n"
+        "select:\n\t - m: metric\n\t - i: imperial\n\t - Any other keys (quite).\n"
     )
-    return {"m": "metric", "i": "imperial"}.get(sys, sys.exit())
+    return {"m": "metric", "i": "imperial"}.get(sys)
 
 
-def cad_conversion(units="metric"):
+def cad_conversion():
     """Convert holes in plate to metric (by default) or imperial."""
     try:
         units = prompt_units_selection()
@@ -69,6 +69,8 @@ def cad_conversion(units="metric"):
                 o.conversion_to_metric(holedata)  # correction
                 imperial = o.size
                 print(" {:<30s} {:<30s}".format(metric, imperial))
+        else:
+            sys.exit()
         #
         print(" " + 60 * "-")
         print("\n")
@@ -108,7 +110,7 @@ def quantites(
 
 def confirmation(func):
     response = raw_input(
-        """Bullet converts holes from imperial to metric, (Press y/[Y] to proceed.): """
+        """Bullet is a converter metric/imperial, (Press y/[Y] to proceed.): """
     )
     if response.lower() not in ["y"]:
         print("Process canceled")
@@ -118,4 +120,4 @@ def confirmation(func):
 
 
 if __name__ == "__main__":
-    confirmation(main)
+    confirmation(cad_conversion)
