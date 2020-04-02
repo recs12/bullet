@@ -11,7 +11,7 @@ def prompt_units_selection():
     sys = raw_input(
         "select:\n\t - m: metric\n\t - i: imperial\n\t - Any other keys (quite).\n"
     )
-    return {"m": "metric", "i": "imperial"}.get(sys)
+    return {"m": "metric", "i": "imperial", "~": "debug"}.get(sys)
 
 
 def cad_conversion():
@@ -26,7 +26,6 @@ def cad_conversion():
         print("* part-number: {:^30s}\n".format(plate.name))
 
         # Check if part is sheetmetal.
-        # TODO: Change the old formated string system for the more recent .format(?)
         assert plate.name.endswith(
             ".psm"
         ), "This macro only works on .psm not {:^30s}".format(plate.name[-4:])
@@ -59,6 +58,7 @@ def cad_conversion():
                 o.conversion_to_metric(holedata)
                 metric = o.size
                 print(" {:<30s} {:<30s}".format(imperial, metric))
+
         elif units == "imperial":  # if imperial
             for hole in holes.threaded():
                 o = Hole(hole)
@@ -69,9 +69,15 @@ def cad_conversion():
                 o.conversion_to_metric(holedata)  # correction
                 imperial = o.size
                 print(" {:<30s} {:<30s}".format(metric, imperial))
+
+        elif units == "debug":
+            for hole in holes.threaded():
+                o = Hole(hole)
+                print(o.__repr__())
+
         else:
             sys.exit()
-        #
+
         print(" " + 60 * "-")
         print("\n")
 

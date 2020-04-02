@@ -3,7 +3,6 @@
 # inch to mm
 
 
-
 mappingToMetric = {
     # :'Countersink #10',
     # :'Countersink 0.250',
@@ -102,7 +101,7 @@ mappingToMetric = {
     # :'Full Threaded M14X2',
 }
 
-#TODO: correct the dictionnary so it can work in reverse.
+# TODO: correct the dictionnary so it can work in reverse.
 # ref = {
 #     "#6-32 UNC": "Threaded M4X0.7",
 #     "#8-32 UNC": "Threaded M4X0.7",
@@ -121,15 +120,15 @@ mappingToMetric = {
 
 mappingToImp = {
     "M4x0.7": "Threaded # 8-32 UNC",
-    "M5x0.8":"Threaded #10-24 UNC",
-    "M5x0.8":"Threaded #10-32 UNF",
-    "M6x1":"Threaded 0.250-20 UNC",
-    "M8x1.25":"Threaded 0.312-18 UNC",
-    "M10x1.5":"Threaded 0.375-16 UNC",
-    "M10x1.25":"Threaded 0.375-24 UNF",
-    "M12x1.75":"Threaded 0.500-13 UNC",
-    "M16x2":"Threaded 0.625-11 UNC",
-    "M16x1.5":"Threaded 0.625-18 UNF",
-    "M20x2.5":"Threaded 0.750-10 UNC",
-    "M24x3":"Threaded 1.000-8 UNC",
+    "M5x0.8": "Threaded #10-24 UNC",
+    "M5x0.8": "Threaded #10-32 UNF",
+    "M6x1": "Threaded 0.250-20 UNC",
+    "M8x1.25": "Threaded 0.312-18 UNC",
+    "M10x1.5": "Threaded 0.375-16 UNC",
+    "M10x1.25": "Threaded 0.375-24 UNF",
+    "M12x1.75": "Threaded 0.500-13 UNC",
+    "M16x2": "Threaded 0.625-11 UNC",
+    "M16x1.5": "Threaded 0.625-18 UNF",
+    "M20x2.5": "Threaded 0.750-10 UNC",
+    "M24x3": "Threaded 1.000-8 UNC",
 }
