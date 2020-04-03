@@ -1,15 +1,16 @@
 #!python3
 # Units: 0 (inch) & 1 (mm)
 from customs import savedholes
-from equivalences import mapping
-
 
 class Hole:
     def __init__(self, hole):
         self.hole = hole
 
     def is_metric(self):
-        return self.hole.Units==1
+        return self.hole.Units == 1
+
+    def is_imperial(self):
+        return self.hole.Units == 0
 
     # Allow to check the parameters of hole
     # also, it can be used as extractor of datahole
@@ -132,32 +133,29 @@ class Hole:
         print("   Units: %s" % self.hole.Units)
         print("   VBottomDimType: %s" % self.hole.VBottomDimType)
         print("\n")
-    
+
     @property
     def size(self):
         return self.hole.Size
 
-    def get_equivalence(self):
+    def get_equivalence(self, mapping):
         if not self.hole.SubType:
             raise Exception("[-] SubType value undefined")
-        else:
-            size = self.hole.Size  # check for size
-            if not isinstance(size, str):
-                raise ValueError("size is not string.")
+        size = self.hole.Size  # check for size
+        if not isinstance(size, str):
+            raise ValueError("size is not string.")
+        equiv = mapping.get(size, None)
+        if not isinstance(equiv, str):
+            raise TypeError("equiv is not string.")
 
-            equiv = mapping.get(size, None)
-            if not isinstance(equiv, str):
-                raise TypeError("equiv is not string.")
-
-            if equiv not in savedholes:
-                raise ValueError(
-                    "Hole size: %s is not in costums-holes-collection." % size
-                )
-            hole_data = savedholes.get(equiv)
-            if not isinstance(hole_data, dict):
-                raise TypeError("hole_data is not dict type: %s" % type(hole_data))
-            else:
-                return hole_data
+        if equiv not in savedholes:
+            raise ValueError(
+                "Hole size: %s is not in costums-holes-collection." % size
+            )
+        hole_data = savedholes.get(equiv)
+        if not isinstance(hole_data, dict):
+            raise TypeError("hole_data is not dict type: %s" % type(hole_data))
+        return hole_data
 
     def conversion_to_metric(self, db):
         if not db:
@@ -197,4 +195,3 @@ class Hole:
             self.hole.ThreadTaperAngle = db.get("ThreadTaperAngle", None)
             self.hole.TreatmentType = db.get("TreatmentType", None)
             self.hole.VBottomDimType = db.get("VBottomDimType", None)
-
