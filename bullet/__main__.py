@@ -9,9 +9,9 @@ from equivalences import mappingToMetric, mappingToImp
 
 def prompt_units_selection():
     sys = raw_input(
-        "select:\n\t - m: metric\n\t - i: imperial\n\t - Any other keys (quite).\n"
+        "select: [m]etric/[i]mperial/[c]ancel: "
     )
-    return {"m": "metric", "i": "imperial", "~": "debug"}.get(sys)
+    return {"m": "metric", "i": "imperial", "?": "debug"}.get(sys)
 
 
 def cad_conversion():

@@ -3,7 +3,7 @@
 ipyc.exe /main:./bullet/__main__.py ./bullet/api.py ./bullet/holes.py ./bullet/equivalences.py ./bullet/customs.py ^
 ./bullet/Interop.SolidEdge.dll ^
 /embed ^
-/out:bullet_macro-recs_64x_0-0-8 ^
+/out:bullet_macro-recs_64x_0-0-9 ^
 /platform:x64 ^
 /standalone ^
 /target:exe ^
