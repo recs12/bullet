@@ -1,6 +1,8 @@
 #!python3
 # Units: 0 (inch) & 1 (mm)
+
 from customs import savedholes
+
 
 class Hole:
     def __init__(self, hole):
@@ -149,9 +151,7 @@ class Hole:
             raise TypeError("equiv is not string.")
 
         if equiv not in savedholes:
-            raise ValueError(
-                "Hole size: %s is not in costums-holes-collection." % size
-            )
+            raise ValueError("Hole size: %s is not in costums-holes-collection." % size)
         hole_data = savedholes.get(equiv)
         if not isinstance(hole_data, dict):
             raise TypeError("hole_data is not dict type: %s" % type(hole_data))

@@ -27,6 +27,10 @@ class Api:
     def name(cls, part):
         return cls.part.Name
 
+    @property
+    def size(cls, part):
+        return cls.part.Size
+
 
 class HoleCollection:
     def __init__(self, doc):
@@ -64,3 +68,6 @@ class HoleCollection:
     def count_threaded(self):
         total_collection = [o for o in self.holes if o.Subtype == "Standard Thread"]
         return len(total_collection)
+
+    def all_holes(cls):
+        return [o.size for o in cls.holes]

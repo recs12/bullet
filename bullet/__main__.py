@@ -1,25 +1,22 @@
 """ Convert threads in holes from imperial to metric.
 """
 import sys
+sys.path.append("C:\IronPython 2.7\Lib")
+from collections import Counter
 
 from api import Api, HoleCollection
+from equivalences import equivalences
 from holes import Hole
-from equivalences import mappingToMetric, mappingToImp
 
-
-def prompt_units_selection():
-    sys = raw_input(
-        "select: [m]etric/[i]mperial/[c]ancel: "
-    )
-    return {"m": "metric", "i": "imperial", "?": "debug"}.get(sys)
+mappingToImp = equivalences.get("mappingToImp")
+mappingToMetric = equivalences.get("mappingToMetric")
 
 
 def cad_conversion():
     """Convert holes in plate to metric (by default) or imperial."""
     try:
-        units = prompt_units_selection()
         session = Api()
-        print("* Author: recs")
+        print("* Author: recs@premiertech.com")
         print("* Last update: 2019-12-3")
         session.check_valid_version("Solid Edge ST7", "Solid Edge 2019")
         plate = session.active_document()
@@ -41,12 +38,12 @@ def cad_conversion():
             holes.count_metric_threaded,
         )
 
-        # Display a table of content
-        # hole sizes before and after macro process.
-        print(" " + 60 * "-")
-        print("{:^30s}->{:^30s}".format("current", "changed to"))
-        print(" " + 60 * "=")
-        #
+        # Prototyping table of holes. (helper for drafter)
+        qty_size = dict(Counter(holes.all_holes()))  # >>> 'M6x1':3
+        print_table(qty_size)
+
+        # Prompt user selection
+        units = prompt_units_selection()
 
         if units == "metric":  # if metric
             for hole in holes.threaded():
@@ -57,7 +54,9 @@ def cad_conversion():
                 holedata = Hole.get_equivalence(o, mapping=mappingToMetric)
                 o.conversion_to_metric(holedata)
                 metric = o.size
+                header()
                 print(" {:<30s} {:<30s}".format(imperial, metric))
+                footer()
 
         elif units == "imperial":  # if imperial
             for hole in holes.threaded():
@@ -68,7 +67,9 @@ def cad_conversion():
                 holedata = Hole.get_equivalence(o, mapping=mappingToImp)  # correction
                 o.conversion_to_metric(holedata)  # correction
                 imperial = o.size
+                header()
                 print(" {:<30s} {:<30s}".format(metric, imperial))
+                footer()
 
         elif units == "debug":
             for hole in holes.threaded():
@@ -77,9 +78,6 @@ def cad_conversion():
 
         else:
             sys.exit()
-
-        print(" " + 60 * "-")
-        print("\n")
 
         # Display a second time the quantites of different types of holes.
         quantites(
@@ -113,6 +111,32 @@ def quantites(
     print("  - imperial: .......... {}".format(imperial_threaded))
     print("  - metric: ............ {} \n".format(metric_threaded))
 
+
+def prompt_units_selection():
+    # TODO: add a lowercase convertor for m and i.
+    sys_metric = raw_input("select: [M]etric/[I]mperial, (press any key to cancel):\n>")
+    sys_metric = sys_metric.lower()
+    return {"m": "metric", "i": "imperial", "?": "debug"}.get(sys_metric)
+
+
+# Display a table of content
+# hole sizes before and after macro process.
+def header(col1="current", col2="changed to"):
+    print(" " + 60 * "-")
+    print("{:^30s}->{:^30s}".format(col1, col2))
+    print(" " + 60 * "=")
+
+
+def footer():
+    print(" " + 60 * "-")
+    print("\n")
+
+
+def print_table(_dict):
+    print("{:<8} {:<15}".format('Size','Qty'))
+    for s, q in _dict.iteritems():
+        print("{:<8} {:<15}".format(s, q))
+    print("\n")
 
 def confirmation(func):
     response = raw_input(
