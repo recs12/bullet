@@ -3,7 +3,6 @@
 
 from customs import savedholes
 
-
 class Hole:
     def __init__(self, hole):
         self.hole = hole
