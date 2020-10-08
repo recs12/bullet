@@ -1,5 +1,7 @@
-""" Convert threads in holes from imperial to metric.
+""" Convert threads in holes from imperial to metric and reverse.
 """
+__VERSION__ = "0.0.0"
+
 import sys
 sys.path.append("C:\IronPython 2.7\Lib")
 from collections import Counter
@@ -150,4 +152,5 @@ def confirmation(func):
 
 
 if __name__ == "__main__":
+    print(__VERSION__)
     confirmation(cad_conversion)
