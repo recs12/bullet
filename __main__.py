@@ -1,6 +1,6 @@
 """ Convert threads in holes from imperial to metric and reverse.
 """
-__VERSION__ = "0.0.0"
+
 
 import sys
 sys.path.append("C:\IronPython 2.7\Lib")
@@ -14,15 +14,18 @@ mappingToImp = equivalences.get("mappingToImp")
 mappingToMetric = equivalences.get("mappingToMetric")
 
 
-def cad_conversion():
+__project__ = "threaded_hole_conversion"
+__author__ = "recs"
+__version__ = "0.0.1"
+__update__ = "2020-11-13"
+
+
+def main():
     """Convert holes in plate to metric (by default) or imperial."""
     try:
         session = Api()
-        print("* Author: recs@premiertech.com")
-        print("* Last update: 2019-12-3")
-        session.check_valid_version("Solid Edge ST7", "Solid Edge 2019")
         plate = session.active_document()
-        print("* part-number: {:^30s}\n".format(plate.name))
+        print("Part: {:^30s}\n".format(plate.name))
 
         # Check if part is sheetmetal.
         assert plate.name.endswith(
@@ -108,10 +111,10 @@ def quantites(
     count, count_threaded, imperial_threaded, metric_threaded, state="(Current state)"
 ):
     print("{}".format(state))
-    print("- Total number of holes: {}".format(count))
-    print("- Total threaded: ...... {}".format(count_threaded))
-    print("  - imperial: .......... {}".format(imperial_threaded))
-    print("  - metric: ............ {} \n".format(metric_threaded))
+    print("- Total number of holes: ...................... {}".format(count))
+    print("- Total threaded: ............................. {}".format(count_threaded))
+    print("  - imperial: ................................. {}".format(imperial_threaded))
+    print("  - metric: ................................... {} \n".format(metric_threaded))
 
 
 def prompt_units_selection():
@@ -140,9 +143,10 @@ def print_table(_dict):
         print("{:<8} {:<15}".format(s, q))
     print("\n")
 
+
 def confirmation(func):
     response = raw_input(
-        """Bullet is a converter metric/imperial, (Press y/[Y] to proceed.): """
+        """Would you like to convert theaded hole to metric or imperial? (Press y/[Y] to proceed.): """
     )
     if response.lower() not in ["y"]:
         print("Process canceled")
@@ -152,5 +156,8 @@ def confirmation(func):
 
 
 if __name__ == "__main__":
-    print(__VERSION__)
-    confirmation(cad_conversion)
+    print(
+        "%s\n--author: %s  --version: %s  --last-update : %s"
+        % (__project__, __author__, __version__, __update__)
+    )
+    confirmation(main)

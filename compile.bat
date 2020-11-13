@@ -7,4 +7,4 @@ Interop.SolidEdge.dll ^
 /standalone ^
 /target:exe ^
 /win32icon:icon.ico ^
-/out:bullet_macro-recs_64x_0-0-9 ^
+/out:treaded_hole_conversion ^

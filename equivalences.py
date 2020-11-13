@@ -99,7 +99,7 @@ equivalences = {
         "1-8 UNC": "Threaded M24X3",
         # :'Full Threaded M14X2',
     },
-    
+
     "mappingToImp": {
         "M4x0.7": "Threaded # 8-32 UNC",
         "M5x0.8": "Threaded #10-24 UNC",
