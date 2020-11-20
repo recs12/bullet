@@ -1,10 +1,7 @@
 """ Convert threads in holes from imperial to metric and reverse.
 """
 
-
 import sys
-sys.path.append("C:\IronPython 2.7\Lib")
-from collections import Counter
 
 from api import Api, HoleCollection
 from equivalences import equivalences
@@ -44,8 +41,8 @@ def main():
         )
 
         # Prototyping table of holes. (helper for drafter)
-        qty_size = dict(Counter(holes.all_holes()))  # >>> 'M6x1':3
-        print_table(qty_size)
+        ## qty_size = dict(len(holes.all_holes()))  # >>> 'M6x1':3
+        ## print_table(qty_size)
 
         # Prompt user selection
         units = prompt_units_selection()
